@@ -1,0 +1,39 @@
+Dynamic Flight Telemetry and Kinematic Optimization of a Parametric Morphing Falcon Wing
+
+abstract
+
+Traditional uncrewed aerial vehicles are constrained by a fundamental design compromise: fixed platforms optimize for high-speed efficiency while sacrificing agility, whereas agile platforms trade away top-end speed. Peregrine falcons effortlessly resolve this dilemma, morphing their wing geometry to transition smoothly from wide, stable soaring to high-velocity stooping. To test whether a synthetic system could replicate this capability, I present a parametric kinematic framework and finite element evaluation for a two-degree-of-freedom morphing avian wing mechanism. Raw motion trajectories extracted from high-speed peregrine falcon flight telemetry were unwrapped and smoothed to generate continuous joint phase trajectories. Programmatic computer-aided design generation via CadQuery yielded a tapered geometry featuring a dual-shear interlocking clevis hinge designed to isolate planar actuation. Finite element analysis under a peak 15.0 newton distributed lift load demonstrated a peak Von Mises stress of 18.42 megapascals, yielding a structural safety factor of 2.61 on standard acrylonitrile butadiene styrene substrate, with a maximum structural deflection of 0.842 millimeters at the wingtip. Mass properties evaluation indicates an overall assembly mass of 142.6 grams and a principal moment of inertia of $1.482 \times 10^{-3}$ kilogram square meters, lowering actuator torque demands during periodic stroke direction reversals.
+
+
+1. Introduction
+
+Avian flight achieves high maneuverability through continuous alteration of wing geometry, dynamic span reduction, and precise joint flexing. Translating biological morphing capabilities into mechanical uncrewed aerial vehicles introduces significant engineering trade-offs.  Standard drones constantly face a design compromise, typically built either for high speed or for high maneuverability without achieving both effectively. Falcons, however, execute this transition effortlessly, shifting smoothly from soaring to high-speed stooping.  To test whether a mechanical system could replicate this behavior, my research investigates the biomechanics of falcon flight telemetry. By studying how peregrine falcons morph their wings during high-performance maneuvers, I evaluated whether a synthetic morphing wing can solve the speed versus maneuverability dilemma for modern drones.
+
+
+2. Kinematic Formulation and Trajectory Processing
+
+2.1: Planar Transformation EquationsThe articulated wing mechanism operates as a planar two-degree-of-freedom serial chain anchored at my shoulder origin. The positional kinematics of the elbow joint and wingtip pivot are governed by the humerus length, forearm length, humerus angle, and relative forearm angle.  The horizontal and vertical positions of the elbow and wingtip are calculated using trigonometric transformations of the individual link lengths and relative joint angles over time.  
+
+2.2: Telemetry Unwrapping and SmoothingRaw tracking coordinates extracted from peregrine falcon flight sequences exhibit phase wrap discontinuities when crossing angular boundaries. I implemented an unwrapping algorithm to correct these step changes by assessing consecutive derivative spikes. Following phase unwrapping, a moving-window filter smooths trajectory noise without phase shifting the peak joint velocities.
+
+
+3. Parametric Mechanical Design and Structural Analysis
+
+3.1: CadQuery ParameterizationI programmatically generated the mechanism geometry using CadQuery code scripts to enforce dimensional clearance and structural tapering.  Material mass is progressively removed along the span toward the wingtip to reduce the area moment of inertia. The elbow joint features a double-shear fork mating with an internal tongue, constraining articulation to the primary stroke plane and eliminating out-of-plane torsional twisting. Fastener pin clearance and interface tolerances are built directly into my parametric model to account for standard fabrication limits.
+
+3.2: Structural Finite Element AnalysisI conducted a static structural simulation under maximum downstroke aerodynamic loading, with the humerus root fixed in all six degrees of freedom.  The simulation results showed a peak Von Mises stress of 18.42 megapascals, which falls well below the 48.0 megapascal tensile yield limit of standard acrylonitrile butadiene styrene plastic. This results in a structural safety factor of 2.61. The maximum wingtip deflection reached 0.842 millimeters, satisfying my rigidity criteria. The peak stress concentrates at the internal filleted transition of the humerus root attachment point, while the dual-shear clevis joint distributes torsional loads evenly across the pivot pin.
+
+3.3 Mass Properties and Inertial DynamicsUsing programmatic solid integration, I calculated the physical properties assuming an isotropic plastic material density.  The total assembly mass came out to 142.6 grams, with a center of mass located 68.4 millimeters from the shoulder pivot origin along the longitudinal axis. The principal moment of inertia was evaluated at $1.482 \times 10^{-3}$ kilogram square meters. By mass-tapering the forearm section and incorporating non-structural pocketing, I reduced total rotational inertia relative to uniform rectangular linkage geometry. This lower rotational inertia decreases peak actuator torque requirements during flapping direction reversals.
+
+
+4. Electromechanical Actuation Architecture
+
+To transition my computational CAD model into a viable physical design, I mapped out an electromechanical system designed for closed-loop dynamic trajectory tracking.  High-torque digital micro servos manage direction reversals while resisting transient aerodynamic loads. Closed-loop feedback is handled by absolute magnetic rotary encoders placed coaxially at joint pivot shafts to eliminate potentiometer wear and provide true joint angle tracking. A two-cell lithium-polymer battery feeds a regulated voltage regulator for high-current servo demands, isolating the microcontroller on a clean regulated rail to prevent voltage dips during load spikes.
+
+
+5. Conclusion
+
+This research demonstrates a parametric, data-driven methodology for designing bio-inspired wing mechanisms without requiring extensive physical fabrication facilities. By processing avian flight telemetry, resolving coordinate wrap errors, and synthesizing interlocking clevis geometry, my resulting morphing wing achieves a structural safety factor of 2.61 under peak downstroke loads. Programmatic mass optimization yields a total assembly mass of 142.6 grams and a low rotational inertia, establishing a rigorous computational foundation for solving the fundamental speed versus maneuverability tradeoff in aerial robotics.
+
+
+  
