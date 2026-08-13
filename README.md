@@ -87,6 +87,34 @@ To minimize actuator torque requirements during high-frequency flapping, link cr
 
 ---
 
+## Electronics & Control Architecture
+
+Planned hardware to support V2 actuator integration (see Roadmap):
+
+### Actuation
+- **Micro servos** (e.g., digital metal-gear servos such as Hitec HS-5065MG) driving the humerus and forearm joints via servo-horn/pushrod linkages. Prioritizes torque-to-weight over raw speed, since flap-cycle torque peaks at direction reversal.
+- **Alternative:** BLDC gimbal motors with closed-loop control for higher bandwidth than a hobby servo's internal PWM loop, at the cost of a custom driver + encoder.
+
+### Position / Motion Sensing
+- **Magnetic rotary encoders (AS5048A / AS5600)** at each joint pivot — mount around the shaft with a diametrically magnetized magnet, compatible with the clevis hinge geometry, avoids potentiometer wear.
+- **IMU (e.g., ICM-42688 or BNO085)** on the wingtip or forearm link to validate CV-derived kinematic trajectories against real angular velocity/acceleration during bench testing.
+
+### Control / Compute
+- **Microcontroller:** STM32F4 or Teensy 4.x for sufficient PWM channels and headroom to run dual servo-position control loops plus encoder feedback in real time.
+- **ESP32** as a rapid-prototyping alternative — PWM, ADC for encoder feedback, and Wi-Fi/BLE for wireless telemetry logging during bench tests.
+
+### Motor Drivers
+- **BLDC route:** small FOC driver per joint (e.g., SimpleFOC-compatible boards using DRV8313).
+- **Servo route:** no separate driver required — ensure clean, adequately-fused power distribution, as servos under load can pull current spikes.
+
+### Power
+- **2S–3S LiPo** (7.4–11.1V), stepped down to 5–6V for the servo rail via a BEC or buck converter, with the MCU on a separate regulated 3.3V rail to isolate servo electrical noise from sensor lines.
+
+### Data / Telemetry Link
+- **UART-to-USB or BLE** streaming encoder and IMU data to the Python analysis pipeline for live logging during dual-motor bench testing.
+
+---
+
 ## Project Execution & Setup
 
 ### Prerequisites
